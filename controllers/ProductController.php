@@ -41,6 +41,7 @@ class ProductController extends ActiveController
     {
         $limit = 20;
         $i = 0;
+        $out = [];
         while($i < $limit)
         {
             $i++;
