@@ -87,6 +87,7 @@ class PurchaseController extends ActiveController
                     {
                         $purchase->status = 'Оплачено';
                         $purchase->save();
+                        $out['status'] = 'Ok';
                     }
                 }
             } else {
@@ -97,7 +98,6 @@ class PurchaseController extends ActiveController
             $out['error'] = true;
             $out['reason'] = 'Id purchase or sum is wrong';
         }
-
         return $out;
     }
 
