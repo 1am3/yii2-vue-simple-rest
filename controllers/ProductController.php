@@ -22,6 +22,11 @@ class ProductController extends ActiveController
         return $actions;
     }
 
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'items',
+    ];
+
     public function actionIndex()
     {
         return new ActiveDataProvider([
@@ -41,10 +46,10 @@ class ProductController extends ActiveController
             $i++;
             $product = new Product();
             $product->name = "Товар $i";
-            $product->price = $i * 100;
+            $product->price = $i * 100 + rand(1,99) / 100;
             $product->save(false);
         }
         $out = ['error' => false];
-        die(json_encode($out));
+        return $out;
     }
 }

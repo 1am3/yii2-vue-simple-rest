@@ -24,6 +24,11 @@ class PurchaseController extends ActiveController
         return [];
     }
 
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'items',
+    ];
+
     public function actionCreate()
     {
         $total = 0;
@@ -60,10 +65,10 @@ class PurchaseController extends ActiveController
                     $purchaseProduct->save();
                 }
                 $out['id_purchase'] = $purchase->id;
-                $out['sum'] = $total;
+                $out['sum'] = round($total,2);
             }
         }
-        die(json_encode($out));
+        return $out;
     }
 
     public function actionPay()
@@ -76,9 +81,9 @@ class PurchaseController extends ActiveController
             $purchase = Purchase::findOne(['id' => $idPurchase, 'status' => 'Новый']);
             if($purchase)
             {
-                if((int)$sum == $purchase->total)
+                if( round( $sum,2) === round( $purchase->total,2) )
                 {
-                    if($this->_checkPayment())
+                    if($this->checkPayment())
                     {
                         $purchase->status = 'Оплачено';
                         $purchase->save();
@@ -92,14 +97,15 @@ class PurchaseController extends ActiveController
             $out['error'] = true;
             $out['reason'] = 'Id purchase or sum is wrong';
         }
-        die(json_encode($out));
+
+        return $out;
     }
 
     /**
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function _checkPayment()
+    private function checkPayment()
     {
         $result = false;
         $client = new Client();

@@ -39,7 +39,10 @@
               const path = '/product/';
               axios.get(path)
                 .then((res) => {
-                  this.products = res.data;
+                  if(res.data.items)
+                  {
+                    this.products = res.data.items;
+                  }
                 })
                 .catch((error) => {
                 });
@@ -64,12 +67,12 @@
               axios.post(path, data)
                 .then((res) => {
                   let data = res.data;
-                  if(data.id_purchase !== 'undefined')
+                  if(data.id_purchase)
                     {
                         this.id_purchase = data.id_purchase;
                         this.sum = data.sum;
                     }
-                    if(data.error !== 'undefined')
+                    if(data.error)
                     {
                       alert(data.reason);
                     }
@@ -87,7 +90,7 @@
               axios.post(path,data)
                   .then((res) => {
                     let data = res.data;
-                    if(data.error !== 'undefined')
+                    if(data.error)
                     {
                       alert(data.reason);
                     }

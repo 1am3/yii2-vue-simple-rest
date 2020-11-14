@@ -15,7 +15,7 @@ class m201113_161841_product extends Migration
         $this->createTable('product', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'price' => $this->integer(),
+            'price' => $this->float(),
         ]);
 
         $this->createIndex(
